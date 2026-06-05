@@ -116,6 +116,12 @@ def yapi_get(env: dict, api_path: str, params: dict) -> dict:
 
     req = urllib.request.Request(url, method="GET")
     req.add_header("Content-Type", "application/json")
+    # Cloudflare 1003/1010：默认的 Python-urllib UA 会被 CDN 拦截为爬虫
+    req.add_header(
+        "User-Agent",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    )
 
     ssl_ctx = _build_ssl_context()
     try:
